@@ -3,3 +3,5 @@ node_modules
 server-info.json
 
 lab-template
+
+coverage
