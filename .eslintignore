@@ -3,3 +3,5 @@ webpack.config.js
 node_modules/
 
 plugins/*
+
+jest.config.js
