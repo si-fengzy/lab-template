@@ -1,0 +1,22 @@
+{
+  "editor.tabSize": 2,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "eslint.debug": true,
+  "eslint.trace.server": "verbose",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.formatOnSave": true,
+  "eslint.run": "onType",
+  "eslint.validate": ["javascript", "typescript"],
+  "prettier.enableDebugLogs": true,
+  "prettier.requireConfig": true,
+  "prettier.enable": true,
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "explorer.excludeGitIgnore": true
+}
