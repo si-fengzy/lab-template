@@ -18,7 +18,7 @@ const packageInfo = require("./package.json");
     "password": ""
   }
  */
-const serverInfo = require("./server-info.json");
+const serverInfo = require("./server.config.json");
 
 module.exports = {
   mode: "production",
@@ -67,9 +67,10 @@ module.exports = {
     ),
     /* 发布到服务器 */
     new ReleasePlugin(
-      resolve(__dirname, packageInfo.name),
-      join("/usr", "local", "Blog", "lab", packageInfo.name),
+      resolve(__dirname),
+      join("/usr", "local", "Blog", "lab"),
       serverInfo,
+      packageInfo.name,
     ),
   ],
   devServer: {

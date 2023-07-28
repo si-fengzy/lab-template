@@ -1,4 +1,6 @@
-const upload = (source, target, serverInfo) => {
+const { join } = require("node:path");
+
+const upload = (source, target, serverInfo, name) => {
   const { Client } = require("ssh2");
   const { execSync } = require("node:child_process");
 
@@ -14,7 +16,9 @@ const upload = (source, target, serverInfo) => {
           .on("close", () => {
             conn.end();
             const result = execSync(
-              `scp -r ${source} ${serverInfo.username}@${serverInfo.host}:${target}`,
+              `scp -r ${join(source, name)} ${serverInfo.username}@${
+                serverInfo.host
+              }:${target}`,
             );
 
             if (!result.toString()) {
@@ -24,7 +28,12 @@ const upload = (source, target, serverInfo) => {
           .on("data", (data) => {
             console.log("RELEASE-OUTPUT: " + data);
           });
-        stream.end(`rm -rf ${target}/* \n rmdir ${target} \nexit\n`);
+        stream.end(
+          `rm -rf ${join(target, name)}/* \n rmdir ${join(
+            target,
+            name,
+          )} \nexit\n`,
+        );
       });
     })
     .connect({
@@ -36,17 +45,18 @@ const upload = (source, target, serverInfo) => {
 };
 
 module.exports = class Release {
-  constructor(source, to, serverInfo) {
+  constructor(source, to, serverInfo, name) {
     this.source = source;
     this.to = to;
     this.serverInfo = serverInfo;
+    this.name = name;
   }
   apply(compiler) {
     const { options, hooks } = compiler;
 
     if (options.mode === "production") {
       hooks.done.tap("upload", (state) => {
-        upload(this.source, this.to, this.serverInfo);
+        upload(this.source, this.to, this.serverInfo, this.name);
       });
       //
     }
